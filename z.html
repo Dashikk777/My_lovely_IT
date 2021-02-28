@@ -1,0 +1,114 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>St. Valenine's Day</title>
+	</head>
+	<body>
+		<canvas id="matrix"></canvas>
+		
+		<script>
+			const canvas = document.querySelector('#matrix');
+			const ctx = canvas.getContext('2d');
+				
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight;
+			
+			const fontSize = 24;
+			ctx.font = 'bold' + fontSize + 'px serif';
+			
+			let centerX = canvas.width / 2;
+			let centerY = canvas.height / 2;
+			let time = 0;
+			let scanTime = 0;
+			
+			
+			
+			
+			function random(min, max) {
+				return Math.floor(Math.random() * (max-min)) + min;
+			}
+			
+			let image = [
+					"      ********          *********       ",
+					"     **     ****       ***********     ",
+					"    ***** *******     *************     ",
+					"    ***** *************************    ",
+					"    ***     ******* ***************    ",
+					"     *****************************     ",
+					"      **** ****    * ** *    ****      ",
+					"       *** **** ** * ** * ******        ",
+					"        ** **** ** * ** *    **           ",
+					"         * **** ** *    * ****           ",
+					"          *   *    **  **    *           ",
+					"           *****************           ",
+					"             **** ** ******             ",
+					"              *** ** *****           ",
+					"               **    ***               ",
+					"                 *****                 ", 
+					"				               **                  ",
+					"				                *                   "
+			]
+			
+			let heartArr = [];
+			for (let i = 0; i < image.length; i++) {
+				heartArr.push(image[i].split(''));
+			}
+			
+			let halfHeartColumns = heartArr[0].length / 2;
+			let halfHeartRows = heartArr.length / 2;
+			
+			function draw() {
+				time += 0.033 * 3;
+				scanTime += 0.033 * 3;
+				let scanLine = Math.floor(halfHeartRows * 2 * (0.5 + 0.5 * Math.sin(scanTime))); 
+				ctx.fillStyle = '#0101';
+				ctx.fillRect (0,0,canvas.width, canvas.height);
+				ctx.fillStyle = '#800080';
+				ctx.fillText('p.s I love you',500,500);
+				ctx.fillStyle = '#DC143C';
+				ctx.beginPath();
+				ctx.moveTo(75, 40);
+				ctx.bezierCurveTo(75, 37, 70, 25, 50, 25);
+				ctx.bezierCurveTo(20, 25, 20, 62.5, 20, 62.5);
+				ctx.bezierCurveTo(20, 80, 40, 102, 75, 120);
+				ctx.bezierCurveTo(110, 102, 130, 80, 130, 62.5);
+				ctx.bezierCurveTo(130, 62.5, 130, 25, 100, 25);
+				ctx.bezierCurveTo(85, 25, 75, 37, 75, 40);
+				ctx.fill();
+				ctx.fillStyle = '#B22222';
+				ctx.beginPath();
+				ctx.moveTo(175, 140);
+				ctx.bezierCurveTo(125, 87, 120, 75, 100, 75);
+				ctx.bezierCurveTo(70, 75, 70, 112.5, 70, 112.5);
+				ctx.bezierCurveTo(70, 130, 90, 152, 125, 170);
+				ctx.bezierCurveTo(160, 152, 180, 130, 180, 112.5);
+				ctx.bezierCurveTo(180, 112.5, 180, 75, 150, 75);
+				ctx.bezierCurveTo(135, 75, 125, 87, 125, 90);
+				ctx.fill();
+				
+				ctx.fillStyle = '#FF4500';
+				for (let i = 0; i < 10; i++) {
+					let text =  String.fromCharCode(0x30A0 + random(0,100));
+					ctx.fillText(text, Math.random() * canvas.width, Math.random() * canvas.height);
+					}
+				
+				for (let i = 0; i < heartArr[0].length; i++) {
+					for (let j = 0; j < heartArr.length; j++) {
+						if (heartArr [j][i] == '*' && Math.random () < 0.8) {
+							let text =  String.fromCharCode(0x30A0 + random(0,96));
+							let koef = 1.0 + 0.3 * Math.sin (time);
+							ctx.fillStyle = '#8B0000';
+							if (scanLine == j + random (-1,1)) {
+								ctx.fillStyle = '#FFFF';
+								}
+							ctx.fillText(text, centerX + (i -halfHeartColumns) * fontSize * koef, centerY + (j - halfHeartRows) * fontSize * koef);
+							
+						}	
+					}
+				}
+			}
+			
+			setInterval (draw,25);
+		</script>	
+	</body>
+</html>
